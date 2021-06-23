@@ -8,6 +8,8 @@ export default Factory.extend({
   // location: association(),
   // user: association(),
 
+  isExternal: false,
+
   worktimePerDay() {
     const worktime = moment.duration(
       (moment.duration({ h: 8, m: 30 }) / 100) * this.percentage

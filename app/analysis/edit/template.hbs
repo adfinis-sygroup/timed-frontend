@@ -1,3 +1,9 @@
+{{#if (cannot "access page")}}
+  <div class="text-center" data-test-access-forbidden>
+    <h1>Access forbidden</h1>
+    <h4>You do not have the permission to access this page</h4>
+  </div>
+{{else}}
 <div class="grid grid--12of12 grid-md--4of12">
   <div class="grid-cell"></div>
   <div class="grid-cell">
@@ -122,3 +128,4 @@
   </div>
   <div class="grid-cell"></div>
 </div>
+{{/if}}

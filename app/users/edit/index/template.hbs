@@ -19,6 +19,10 @@
                 <td>{{model.activeEmployment.location.name}}</td>
               </tr>
               <tr>
+                <td>Contract type:</td>
+                <td>{{if model.activeEmployment.isExternal "External" "Internal"}}</td>
+              </tr>
+              <tr>
                 <td>Percentage:</td>
                 <td>{{model.activeEmployment.percentage}}%</td>
               </tr>

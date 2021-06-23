@@ -20,21 +20,23 @@
       {{/link-to}}
     </li>
     {{#unless navMobile}}
-      <li class="nav-top-list-item">
-        {{#link-to 'analysis'}}
-          {{fa-icon 'line-chart'}} Analysis
-        {{/link-to}}
-      </li>
-      <li class="nav-top-list-item">
-        {{#link-to 'statistics'}}
-          {{fa-icon 'bar-chart'}} Statistics
-        {{/link-to}}
-      </li>
-      <li class="nav-top-list-item">
-        {{#link-to 'projects'}}
-          {{fa-icon 'briefcase'}} Projects
-        {{/link-to}}
-      </li>
+      {{#if (can "access page")}}
+        <li class="nav-top-list-item">
+          {{#link-to 'analysis'}}
+            {{fa-icon 'line-chart'}} Analysis
+          {{/link-to}}
+        </li>
+        <li class="nav-top-list-item">
+          {{#link-to 'statistics'}}
+            {{fa-icon 'bar-chart'}} Statistics
+          {{/link-to}}
+        </li>
+        <li class="nav-top-list-item">
+          {{#link-to 'projects'}}
+            {{fa-icon 'briefcase'}} Projects
+          {{/link-to}}
+        </li>
+      {{/if}}
     {{/unless}}
     {{#if session.data.user.isSuperuser}}
       <li class="nav-top-list-item">

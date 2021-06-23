@@ -1,6 +1,12 @@
 {{#if (or (media 'isMo') (media 'isXs') (media 'isSm'))}}
   {{no-mobile-message}}
 {{else}}
+  {{#if (cannot "access page")}}
+    <div class="text-center" data-test-access-forbidden>
+      <h1>Access forbidden</h1>
+      <h4>You do not have the permission to access this page</h4>
+    </div>
+  {{else}}
   <h1>Analysis</h1>
 
   {{#task-selection
@@ -336,5 +342,6 @@
         </div>
       </div>
     {{/with}}
+  {{/if}}
   {{/if}}
 {{/if}}

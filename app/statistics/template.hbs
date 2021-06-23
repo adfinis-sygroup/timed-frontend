@@ -1,202 +1,209 @@
 {{#if (or (media 'isMo') (media 'isXs') (media 'isSm'))}}
   {{no-mobile-message}}
 {{else}}
-  <h1>Statistics</h1>
+  {{#if (cannot "access page")}}
+    <div class="text-center" data-test-access-forbidden>
+      <h1>Access forbidden</h1>
+      <h4>You do not have the permission to access this page</h4>
+    </div>
+  {{else}}
+    <h1>Statistics</h1>
 
-  {{#task-selection
-    history         = false
-    archived        = true
-    on-set-customer = (action 'setModelFilter' 'customer')
-    on-set-project  = (action 'setModelFilter' 'project')
-    on-set-task     = (action 'setModelFilter' 'task')
-    initial         = (hash
-      customer      = selectedCustomer
-      project       = selectedProject
-      task          = selectedTask
-    )
-  as |t|}}
-    {{#filter-sidebar
-      appliedCount = appliedFilters.length
-      on-reset     = (action (queue t.clear (action 'reset')))
-    as |fs|}}
-      {{#fs.group label='Task' expanded=true}}
-        {{#fs.label}}
-          Customer
-          {{#fs.filter data-test-filter-customer}}
-            {{t.customer}}
-          {{/fs.filter}}
-        {{/fs.label}}
-        {{#fs.label}}
-          Project
-          {{#fs.filter data-test-filter-project}}
-            {{t.project}}
-          {{/fs.filter}}
-        {{/fs.label}}
-        {{#fs.label}}
-          Task
-          {{#fs.filter data-test-filter-task}}
-            {{t.task}}
-          {{/fs.filter}}
-        {{/fs.label}}
-      {{/fs.group}}
-      {{#fs.group label='Responsibility'}}
-        {{#fs.label}}
-          User
-          {{#fs.filter data-test-filter-user}}
-            {{#user-selection
-              user          = selectedUser
-              on-change     = (action 'setModelFilter' 'user')
-            as |u|}}
-              {{u.user}}
-            {{/user-selection}}
-          {{/fs.filter}}
-        {{/fs.label}}
-        {{#fs.label}}
-          Reviewer
-          {{#fs.filter data-test-filter-reviewer}}
-            {{#user-selection
-              user          = selectedReviewer
-              on-change     = (action 'setModelFilter' 'reviewer')
-              queryOptions  = (hash is_reviewer=1)
-            as |u|}}
-              {{u.user placeholder='Select reviewer...'}}
-            {{/user-selection}}
-          {{/fs.filter}}
-        {{/fs.label}}
-      {{/fs.group}}
-      {{#fs.group label='Finances'}}
-        {{#fs.label}}
-          Billing type
-          {{fs.filter 'select'
-            data-test-filter-billing-type
-            selected  = billingType
-            valuePath = 'id'
-            labelPath = 'name'
-            prompt    = 'All billing types'
-            options   = billingTypes
-            on-change = (action (mut billingType))
+    {{#task-selection
+      history         = false
+      archived        = true
+      on-set-customer = (action 'setModelFilter' 'customer')
+      on-set-project  = (action 'setModelFilter' 'project')
+      on-set-task     = (action 'setModelFilter' 'task')
+      initial         = (hash
+        customer      = selectedCustomer
+        project       = selectedProject
+        task          = selectedTask
+      )
+    as |t|}}
+      {{#filter-sidebar
+        appliedCount = appliedFilters.length
+        on-reset     = (action (queue t.clear (action 'reset')))
+      as |fs|}}
+        {{#fs.group label='Task' expanded=true}}
+          {{#fs.label}}
+            Customer
+            {{#fs.filter data-test-filter-customer}}
+              {{t.customer}}
+            {{/fs.filter}}
+          {{/fs.label}}
+          {{#fs.label}}
+            Project
+            {{#fs.filter data-test-filter-project}}
+              {{t.project}}
+            {{/fs.filter}}
+          {{/fs.label}}
+          {{#fs.label}}
+            Task
+            {{#fs.filter data-test-filter-task}}
+              {{t.task}}
+            {{/fs.filter}}
+          {{/fs.label}}
+        {{/fs.group}}
+        {{#fs.group label='Responsibility'}}
+          {{#fs.label}}
+            User
+            {{#fs.filter data-test-filter-user}}
+              {{#user-selection
+                user          = selectedUser
+                on-change     = (action 'setModelFilter' 'user')
+              as |u|}}
+                {{u.user}}
+              {{/user-selection}}
+            {{/fs.filter}}
+          {{/fs.label}}
+          {{#fs.label}}
+            Reviewer
+            {{#fs.filter data-test-filter-reviewer}}
+              {{#user-selection
+                user          = selectedReviewer
+                on-change     = (action 'setModelFilter' 'reviewer')
+                queryOptions  = (hash is_reviewer=1)
+              as |u|}}
+                {{u.user placeholder='Select reviewer...'}}
+              {{/user-selection}}
+            {{/fs.filter}}
+          {{/fs.label}}
+        {{/fs.group}}
+        {{#fs.group label='Finances'}}
+          {{#fs.label}}
+            Billing type
+            {{fs.filter 'select'
+              data-test-filter-billing-type
+              selected  = billingType
+              valuePath = 'id'
+              labelPath = 'name'
+              prompt    = 'All billing types'
+              options   = billingTypes
+              on-change = (action (mut billingType))
+            }}
+          {{/fs.label}}
+          {{#fs.label}}
+            Cost center
+            {{fs.filter 'select'
+              data-test-filter-cost-center
+              selected  = costCenter
+              valuePath = 'id'
+              labelPath = 'name'
+              prompt    = 'All cost centers'
+              options   = costCenters
+              on-change = (action (mut costCenter))
+            }}
+          {{/fs.label}}
+        {{/fs.group}}
+        {{#fs.group label='Time range'}}
+          {{#fs.label}}
+            From
+            {{fs.filter 'date'
+              data-test-filter-from-date
+              selected  = fromDate
+              on-change = (action (mut fromDate))
+            }}
+          {{/fs.label}}
+          {{#fs.label}}
+            To
+            {{fs.filter 'date'
+              data-test-filter-to-date
+              selected  = toDate
+              on-change = (action (mut toDate))
+            }}
+          {{/fs.label}}
+          {{date-buttons
+              onUpdateFromDate=(action (mut fromDate))
+              onUpdateToDate=(action (mut toDate))
           }}
-        {{/fs.label}}
-        {{#fs.label}}
-          Cost center
-          {{fs.filter 'select'
-            data-test-filter-cost-center
-            selected  = costCenter
-            valuePath = 'id'
-            labelPath = 'name'
-            prompt    = 'All cost centers'
-            options   = costCenters
-            on-change = (action (mut costCenter))
-          }}
-        {{/fs.label}}
-      {{/fs.group}}
-      {{#fs.group label='Time range'}}
-        {{#fs.label}}
-          From
-          {{fs.filter 'date'
-            data-test-filter-from-date
-            selected  = fromDate
-            on-change = (action (mut fromDate))
-          }}
-        {{/fs.label}}
-        {{#fs.label}}
-          To
-          {{fs.filter 'date'
-            data-test-filter-to-date
-            selected  = toDate
-            on-change = (action (mut toDate))
-          }}
-        {{/fs.label}}
-        {{date-buttons
-            onUpdateFromDate=(action (mut fromDate))
-            onUpdateToDate=(action (mut toDate))
-        }}
-      {{/fs.group}}
-      {{#fs.group label='State'}}
-        {{#fs.label}}
-          Review
-          {{fs.filter 'button'
-            data-test-filter-review
-            selected  = review
-            valuePath = 'value'
-            labelPath = 'label'
-            options = (array
-              (hash label='All' value='')
-              (hash label='Needed' value='1')
-              (hash label='Not needed' value='0')
-            )
-            on-change = (action (mut review))
-          }}
-        {{/fs.label}}
-        {{#fs.label}}
-          Billability
-          {{fs.filter 'button'
-            data-test-filter-not-billable
-            selected  = notBillable
-            valuePath = 'value'
-            labelPath = 'label'
-            options = (array
-              (hash label='All' value='')
-              (hash label='Billable' value='0')
-              (hash label='Not billable' value='1')
-            )
-            on-change = (action (mut notBillable))
-          }}
-        {{/fs.label}}
-        {{#fs.label}}
-          Verified
-          {{fs.filter 'button'
-            data-test-filter-verified
-            selected  = verified
-            valuePath = 'value'
-            labelPath = 'label'
-            options = (array
-              (hash label='All' value='')
-              (hash label='Verified' value='1')
-              (hash label='Not verified' value='0')
-            )
-            on-change = (action (mut verified))
-          }}
-        {{/fs.label}}
-        {{#fs.label}}
-          Billed
-          {{fs.filter 'button'
-            data-test-filter-billed
-            selected  = billed
-            valuePath = 'value'
-            labelPath = 'label'
-            options = (array
-              (hash label='All' value='')
-              (hash label='Billed' value='1')
-              (hash label='Not Billed' value='0')
-            )
-            on-change = (action (mut billed))
-          }}
-        {{/fs.label}}
-      {{/fs.group}}
-    {{/filter-sidebar}}
-  {{/task-selection}}
+        {{/fs.group}}
+        {{#fs.group label='State'}}
+          {{#fs.label}}
+            Review
+            {{fs.filter 'button'
+              data-test-filter-review
+              selected  = review
+              valuePath = 'value'
+              labelPath = 'label'
+              options = (array
+                (hash label='All' value='')
+                (hash label='Needed' value='1')
+                (hash label='Not needed' value='0')
+              )
+              on-change = (action (mut review))
+            }}
+          {{/fs.label}}
+          {{#fs.label}}
+            Billability
+            {{fs.filter 'button'
+              data-test-filter-not-billable
+              selected  = notBillable
+              valuePath = 'value'
+              labelPath = 'label'
+              options = (array
+                (hash label='All' value='')
+                (hash label='Billable' value='0')
+                (hash label='Not billable' value='1')
+              )
+              on-change = (action (mut notBillable))
+            }}
+          {{/fs.label}}
+          {{#fs.label}}
+            Verified
+            {{fs.filter 'button'
+              data-test-filter-verified
+              selected  = verified
+              valuePath = 'value'
+              labelPath = 'label'
+              options = (array
+                (hash label='All' value='')
+                (hash label='Verified' value='1')
+                (hash label='Not verified' value='0')
+              )
+              on-change = (action (mut verified))
+            }}
+          {{/fs.label}}
+          {{#fs.label}}
+            Billed
+            {{fs.filter 'button'
+              data-test-filter-billed
+              selected  = billed
+              valuePath = 'value'
+              labelPath = 'label'
+              options = (array
+                (hash label='All' value='')
+                (hash label='Billed' value='1')
+                (hash label='Not Billed' value='0')
+              )
+              on-change = (action (mut billed))
+            }}
+          {{/fs.label}}
+        {{/fs.group}}
+      {{/filter-sidebar}}
+    {{/task-selection}}
 
-  <div>
-    <ul class="nav-tabs">
-      {{#each types as |t|}}
-        <li>
-          <a href="#" class={{if (eq t type) 'active'}} {{action (mut type) t}}>
-            By {{t}}
-          </a>
-        </li>
-      {{/each}}
-    </ul>
-  </div>
+    <div>
+      <ul class="nav-tabs">
+        {{#each types as |t|}}
+          <li>
+            <a href="#" class={{if (eq t type) 'active'}} {{action (mut type) t}}>
+              By {{t}}
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
 
-  <div class="tab-content grid">
-    {{statistic-list
-      data               = data
-      type               = type
-      missingParams      = missingParams
-      ordering           = ordering
-      class              = 'grid-cell'
-      on-ordering-change = (action (mut ordering))
-    }}
-  </div>
+    <div class="tab-content grid">
+      {{statistic-list
+        data               = data
+        type               = type
+        missingParams      = missingParams
+        ordering           = ordering
+        class              = 'grid-cell'
+        on-ordering-change = (action (mut ordering))
+      }}
+    </div>
+  {{/if}}
 {{/if}}

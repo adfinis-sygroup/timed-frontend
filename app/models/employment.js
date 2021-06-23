@@ -40,6 +40,14 @@ export default Model.extend({
   start: attr("django-date"),
 
   /**
+   * Whether the user is an external employee
+   *
+   * @property {Boolean} isExternal
+   * @public
+   */
+  isExternal: attr("boolean", { defaultValue: false }),
+
+  /**
    * The end date
    *
    * @property {moment} end
