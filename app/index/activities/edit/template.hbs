@@ -18,6 +18,9 @@
           value={{changeset.comment}}
           onchange={{action (mut changeset.comment) value='target.value'}}
         >
+        {{#if changeset.task.project.customerVisible }}
+          <CustomerVisibleIcon class="customer-visible-icon" />
+        {{/if}}
       </div>
       <div class="form-group checkboxes">
         {{sy-checkbox

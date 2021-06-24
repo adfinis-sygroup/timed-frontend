@@ -43,7 +43,12 @@
                   <strong>Unknown task</strong>
                 {{/if}}
               </td>
-              <td title={{activity.comment}}><div>{{activity.comment}}</div></td>
+              <td title={{activity.comment}}>
+                <div>{{activity.comment}}</div>
+                {{#if activity.task.project.customerVisible }}
+                  <CustomerVisibleIcon class="activity-customer-visible-icon" />
+                {{/if}}
+              </td>
               <td>
                 <div>{{sy-checkmark checked=activity.review}} Needs review</div>
                 <div>{{sy-checkmark checked=activity.notBillable}} Not billable</div>

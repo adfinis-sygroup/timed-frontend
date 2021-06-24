@@ -15,6 +15,9 @@
     onchange={{action (mut changeset.comment) value='target.value'}}
     data-test-report-comment
   >
+  {{#if changeset.task.project.customerVisible }}
+      <CustomerVisibleIcon class="customer-visible-icon" />
+  {{/if}}
 </div>
 <div class="form-list-cell form-group">
   {{sy-durationpicker-day data-test-report-duration disabled=(not editable) value=changeset.duration on-change=(action (mut changeset.duration))}}</div>

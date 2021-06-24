@@ -24,6 +24,9 @@ as |t|}}
         value       = tracking.activity.comment
         disabled    = tracking.activity.active
       }}
+      {{#if tracking.activity.task.project.customerVisible }}
+        <CustomerVisibleIcon class="customer-visible-icon" />
+      {{/if}}
     </div>
     <div class="form-group">
       {{record-button

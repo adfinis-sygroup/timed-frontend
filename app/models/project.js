@@ -51,6 +51,15 @@ export default Model.extend({
   customer: belongsTo("customer"),
 
   /**
+   * Whether the project's comments are visible to the customer
+   *
+   * @property customerVisible
+   * @type {Boolean}
+   * @public
+   */
+  customerVisible: attr("boolean", { defaultValue: false }),
+
+  /**
    * The billing
    *
    * @property {BillingType} billingType

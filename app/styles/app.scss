@@ -291,3 +291,46 @@ strong {
     color: inherit;
   }
 }
+
+.activity-customer-visible-icon {
+  position: relative;
+  float: right;
+  z-index: 1;
+}
+
+.customer-visible-icon {
+  position: relative;
+  float: right;
+  margin-top: -1.7rem;
+  margin-right: 1rem;
+  z-index: 1;
+}
+
+@media (max-width: 680px) {
+  .activity-customer-visible-icon {
+    margin-top: 0rem;
+    margin-left : 90%;
+  }
+
+  .customer-visible-icon {
+    margin-top: -2.5rem;
+  }
+}
+
+@media #{$sm-viewport} {
+  .activity-customer-visible-icon {
+    margin-top: -2rem;
+    margin-left: 85%;
+  }
+}
+
+@media #{$md-viewport} {
+  .activity-customer-visible-icon {
+    margin-top: -22px;
+    margin-left: 90%;
+  }
+
+  .customer-visible-icon {
+    margin-top: -1.7rem;
+  }
+}
