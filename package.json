@@ -33,7 +33,7 @@
     "ember-basic-dropdown": "^2.0.11",
     "ember-can": "^2.1.0",
     "ember-changeset": "^2.2.4",
-    "ember-changeset-validations": "^2.2.1",
+    "ember-changeset-validations": "^3.15.1",
     "ember-cli": "~3.12.0",
     "ember-cli-app-version": "^3.2.0",
     "ember-cli-babel": "^7.13.2",
